@@ -36,26 +36,52 @@
             --success-color: #10b981;
             --error-color: #ef4444;
             --scrollbar-thumb: #cbd5e1;
+
+            /* Light Background & ID Card Details */
+            --bg-shape-1: rgba(99, 102, 241, 0.3);
+            --bg-shape-2: rgba(168, 85, 247, 0.25);
+            --btn-shadow: rgba(99, 102, 241, 0.25);
+            --id-card-bg: radial-gradient(circle at 100% 100%, #1e1b4b 0%, #030712 100%);
+            --id-card-glow-bg: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, transparent 70%);
+            --id-card-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(99, 102, 241, 0.3);
+            --id-card-accent: #818cf8;
+            --id-card-name-gradient: linear-gradient(135deg, #ffffff 0%, #a855f7 100%);
+            --pulse-glow-start: rgba(99, 102, 241, 0.2);
+            --pulse-glow-end: rgba(99, 102, 241, 0.5);
         }
 
         [data-theme="dark"] {
-            /* Dark Theme Tokens */
-            --bg-gradient: radial-gradient(circle at 0% 0%, #0f172a 0%, #020617 100%);
-            --glass-bg: rgba(15, 23, 42, 0.6);
-            --glass-border: rgba(255, 255, 255, 0.05);
-            --text-primary: #f8fafc;
-            --text-secondary: #cbd5e1;
-            --text-muted: #64748b;
-            --accent-primary: #818cf8;
-            --accent-secondary: #c084fc;
-            --accent-gradient: linear-gradient(135deg, #818cf8 0%, #c084fc 100%);
-            --accent-glow: rgba(129, 140, 248, 0.25);
-            --card-hover: rgba(30, 41, 59, 0.8);
-            --input-bg: rgba(15, 23, 42, 0.7);
-            --input-border: rgba(51, 65, 85, 0.6);
-            --shadow-primary: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            --shadow-glow: 0 0 25px rgba(129, 140, 248, 0.35);
-            --scrollbar-thumb: #334155;
+            /* Black and White Theme Tokens */
+            --bg-gradient: radial-gradient(circle at 50% 50%, #171717 0%, #000000 100%);
+            --glass-bg: rgba(10, 10, 10, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #ffffff;
+            --text-secondary: #a3a3a3;
+            --text-muted: #737373;
+            --accent-primary: #ffffff;
+            --accent-secondary: #d4d4d4;
+            --accent-gradient: linear-gradient(135deg, #ffffff 0%, #525252 100%);
+            --accent-glow: rgba(255, 255, 255, 0.08);
+            --card-hover: rgba(28, 28, 28, 0.85);
+            --input-bg: rgba(15, 15, 15, 0.8);
+            --input-border: rgba(64, 64, 64, 0.8);
+            --shadow-primary: 0 25px 50px -12px rgba(0, 0, 0, 0.85);
+            --shadow-glow: 0 0 25px rgba(255, 255, 255, 0.12);
+            --scrollbar-thumb: #404040;
+            --success-color: #34d399;
+            --error-color: #f87171;
+
+            /* Black & White Background & ID Card Details */
+            --bg-shape-1: rgba(255, 255, 255, 0.02);
+            --bg-shape-2: rgba(255, 255, 255, 0.01);
+            --btn-shadow: rgba(255, 255, 255, 0.15);
+            --id-card-bg: radial-gradient(circle at 100% 100%, #262626 0%, #000000 100%);
+            --id-card-glow-bg: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            --id-card-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(255, 255, 255, 0.15);
+            --id-card-accent: #ffffff;
+            --id-card-name-gradient: linear-gradient(135deg, #ffffff 0%, #a3a3a3 100%);
+            --pulse-glow-start: rgba(255, 255, 255, 0.08);
+            --pulse-glow-end: rgba(255, 255, 255, 0.2);
         }
 
         /* Reset & Base Styles */
@@ -96,7 +122,7 @@
         .shape-1 {
             width: 400px;
             height: 400px;
-            background: rgba(99, 102, 241, 0.3);
+            background: var(--bg-shape-1);
             top: -100px;
             left: -100px;
         }
@@ -104,7 +130,7 @@
         .shape-2 {
             width: 350px;
             height: 350px;
-            background: rgba(168, 85, 247, 0.25);
+            background: var(--bg-shape-2);
             bottom: -50px;
             right: -50px;
             animation-delay: -5s;
@@ -166,8 +192,8 @@
         }
 
         @keyframes pulse-glow {
-            0% { box-shadow: 0 0 10px rgba(99, 102, 241, 0.2); }
-            100% { box-shadow: 0 0 25px rgba(99, 102, 241, 0.5); }
+            0% { box-shadow: 0 0 10px var(--pulse-glow-start); }
+            100% { box-shadow: 0 0 25px var(--pulse-glow-end); }
         }
 
         .portal-header h1 {
@@ -446,7 +472,7 @@
         .segmented-option input[type="radio"]:checked + .segmented-label {
             background: var(--accent-gradient);
             color: #ffffff;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+            box-shadow: 0 4px 12px var(--btn-shadow);
         }
 
         .segmented-label:hover {
@@ -704,7 +730,7 @@
             background: var(--accent-gradient);
             border: none;
             color: #ffffff;
-            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.25);
+            box-shadow: 0 8px 24px var(--btn-shadow);
         }
 
         .btn-primary:hover {
@@ -756,12 +782,12 @@
 
         /* Student ID Card Design */
         .id-card {
-            background: radial-gradient(circle at 100% 100%, #1e1b4b 0%, #030712 100%);
+            background: var(--id-card-bg);
             border: 2px solid rgba(255,255,255,0.1);
             width: 480px;
             border-radius: var(--border-radius-lg);
             overflow: hidden;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.6), 0 0 40px rgba(99, 102, 241, 0.3);
+            box-shadow: var(--id-card-shadow);
             position: relative;
             transform: scale(0.8) rotateX(10deg);
             opacity: 0;
@@ -779,7 +805,7 @@
             left: -50px;
             width: 200px;
             height: 200px;
-            background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, transparent 70%);
+            background: var(--id-card-glow-bg);
             pointer-events: none;
         }
 
@@ -802,7 +828,7 @@
         }
 
         .id-university-logo i {
-            color: #818cf8;
+            color: var(--id-card-accent);
         }
 
         .id-badge {
@@ -874,7 +900,7 @@
             font-weight: 800;
             color: #ffffff;
             font-family: 'Outfit', sans-serif;
-            background: linear-gradient(135deg, #ffffff 0%, #a855f7 100%);
+            background: var(--id-card-name-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -1326,6 +1352,11 @@
             activeTheme = activeTheme === 'light' ? 'dark' : 'light';
             document.documentElement.setAttribute('data-theme', activeTheme);
             updateThemeToggleIcon();
+            
+            // Adapt drawing stroke color instantly if canvas context is initialized
+            if (typeof ctx !== 'undefined') {
+                ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--accent-primary').trim();
+            }
         });
 
         function updateThemeToggleIcon() {
@@ -1680,7 +1711,7 @@
             canvas.height = rect.height;
 
             // Canvas drawing configuration
-            ctx.strokeStyle = '#6366f1';
+            ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--accent-primary').trim() || '#6366f1';
             ctx.lineWidth = 3.5;
             ctx.lineCap = 'round';
             ctx.lineJoin = 'round';
@@ -1816,7 +1847,17 @@
             }
 
             // Bind signature representation
-            document.getElementById('idSignaturePreview').src = signatureDataUrl;
+            const sigPreview = document.getElementById('idSignaturePreview');
+            sigPreview.src = signatureDataUrl;
+            
+            // Adjust signature invert filter depending on theme:
+            // Light theme signature uses dark ink, so we invert to white for the dark ID card.
+            // Dark theme signature is already white ink in B&W theme, so no invert is needed.
+            if (activeTheme === 'dark') {
+                sigPreview.style.filter = 'none';
+            } else {
+                sigPreview.style.filter = 'invert(1)';
+            }
         }
 
         // Clean & Re-initialize form data
@@ -1867,7 +1908,10 @@
             canvasConf.height = window.innerHeight;
 
             const particles = [];
-            const colors = ['#6366f1', '#a855f7', '#10b981', '#f59e0b', '#3b82f6'];
+            // In B&W dark mode, confetti is styled monochromatic (white/silver/greys)
+            const colors = activeTheme === 'dark'
+                ? ['#ffffff', '#e5e5e5', '#d4d4d4', '#a3a3a3', '#737373']
+                : ['#6366f1', '#a855f7', '#10b981', '#f59e0b', '#3b82f6'];
 
             for (let i = 0; i < 150; i++) {
                 particles.push({
