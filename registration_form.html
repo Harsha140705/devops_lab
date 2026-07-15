@@ -1,0 +1,1918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex University | Student Registration Portal</title>
+    <!-- Google Fonts: Outfit & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for modern icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Modern Design System & Variables */
+        :root {
+            /* Light Theme Tokens */
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --glass-bg: rgba(255, 255, 255, 0.45);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --accent-primary: #6366f1;
+            --accent-secondary: #a855f7;
+            --accent-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --accent-glow: rgba(99, 102, 241, 0.15);
+            --card-hover: rgba(255, 255, 255, 0.7);
+            --input-bg: rgba(255, 255, 255, 0.6);
+            --input-border: rgba(226, 232, 240, 0.8);
+            --shadow-primary: 0 20px 40px -15px rgba(15, 23, 42, 0.1);
+            --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.2);
+            --border-radius-lg: 24px;
+            --border-radius-md: 16px;
+            --border-radius-sm: 8px;
+            --success-color: #10b981;
+            --error-color: #ef4444;
+            --scrollbar-thumb: #cbd5e1;
+        }
+
+        [data-theme="dark"] {
+            /* Dark Theme Tokens */
+            --bg-gradient: radial-gradient(circle at 0% 0%, #0f172a 0%, #020617 100%);
+            --glass-bg: rgba(15, 23, 42, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.05);
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #64748b;
+            --accent-primary: #818cf8;
+            --accent-secondary: #c084fc;
+            --accent-gradient: linear-gradient(135deg, #818cf8 0%, #c084fc 100%);
+            --accent-glow: rgba(129, 140, 248, 0.25);
+            --card-hover: rgba(30, 41, 59, 0.8);
+            --input-bg: rgba(15, 23, 42, 0.7);
+            --input-border: rgba(51, 65, 85, 0.6);
+            --shadow-primary: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --shadow-glow: 0 0 25px rgba(129, 140, 248, 0.35);
+            --scrollbar-thumb: #334155;
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.4s ease, border-color 0.4s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+        }
+
+        h1, h2, h3, h4, .title-font {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 1rem;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Decorative Background Shapes */
+        .bg-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: 0;
+            opacity: 0.6;
+            animation: float-shapes 20s infinite alternate;
+        }
+
+        .shape-1 {
+            width: 400px;
+            height: 400px;
+            background: rgba(99, 102, 241, 0.3);
+            top: -100px;
+            left: -100px;
+        }
+
+        .shape-2 {
+            width: 350px;
+            height: 350px;
+            background: rgba(168, 85, 247, 0.25);
+            bottom: -50px;
+            right: -50px;
+            animation-delay: -5s;
+        }
+
+        @keyframes float-shapes {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, 30px) scale(1.15); }
+        }
+
+        /* Scrollbar customization */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--scrollbar-thumb);
+            border-radius: 4px;
+        }
+
+        /* Main Glass Container */
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius-lg);
+            padding: 3rem;
+            box-shadow: var(--shadow-primary);
+            z-index: 10;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Header section */
+        .portal-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .portal-logo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 64px;
+            height: 64px;
+            background: var(--accent-gradient);
+            color: #ffffff;
+            border-radius: var(--border-radius-md);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow-glow);
+            animation: pulse-glow 3s infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 10px rgba(99, 102, 241, 0.2); }
+            100% { box-shadow: 0 0 25px rgba(99, 102, 241, 0.5); }
+        }
+
+        .portal-header h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .portal-header p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 400;
+        }
+
+        /* Theme Toggle switch styling */
+        .theme-toggle-btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            color: var(--text-primary);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .theme-toggle-btn:hover {
+            transform: rotate(30deg) scale(1.1);
+            background: var(--card-hover);
+        }
+
+        /* Step Progress Indicator */
+        .stepper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3.5rem;
+            position: relative;
+        }
+
+        .stepper::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--input-border);
+            z-index: 1;
+            transform: translateY(-50%);
+        }
+
+        .stepper-progress {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            height: 3px;
+            background: var(--accent-gradient);
+            z-index: 2;
+            transform: translateY(-50%);
+            width: 0%;
+            transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .step {
+            width: 45px;
+            height: 45px;
+            background: var(--input-bg);
+            border: 3px solid var(--input-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            z-index: 3;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .step.active {
+            border-color: var(--accent-primary);
+            background: var(--text-primary);
+            color: var(--glass-bg);
+            box-shadow: var(--shadow-glow);
+            transform: scale(1.15);
+        }
+
+        .step.completed {
+            background: var(--accent-gradient);
+            border-color: transparent;
+            color: #ffffff;
+        }
+
+        .step-label {
+            position: absolute;
+            top: 55px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            white-space: nowrap;
+            color: var(--text-muted);
+            transform: translateY(5px);
+            opacity: 0.7;
+        }
+
+        .step.active .step-label {
+            color: var(--accent-primary);
+            opacity: 1;
+        }
+
+        /* Multistep Form Logic (visibility) */
+        .form-step {
+            display: none;
+            animation: slide-in 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        @keyframes slide-in {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Form Layout Styles */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.8rem;
+        }
+
+        .span-2 {
+            grid-column: span 2;
+        }
+
+        .form-group {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Interactive Floating Labels */
+        .input-control {
+            width: 100%;
+            padding: 1.1rem 1.2rem;
+            background: var(--input-bg);
+            border: 1.5px solid var(--input-border);
+            border-radius: var(--border-radius-md);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            font-weight: 500;
+            outline: none;
+        }
+
+        .input-control:focus {
+            border-color: var(--accent-primary);
+            box-shadow: var(--accent-glow);
+            background: var(--card-hover);
+        }
+
+        .floating-label {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            pointer-events: none;
+            font-size: 0.95rem;
+            transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+            font-weight: 500;
+        }
+
+        /* Label float styles when text present or focused */
+        .input-control:focus ~ .floating-label,
+        .input-control:not(:placeholder-shown) ~ .floating-label {
+            top: 0;
+            font-size: 0.75rem;
+            padding: 0 0.4rem;
+            color: var(--accent-primary);
+            background: var(--glass-bg);
+            border-radius: 4px;
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        /* Input Date customization to handle empty state beautifully */
+        .input-control[type="date"] {
+            color: var(--text-primary);
+        }
+        .input-control[type="date"]::placeholder {
+            opacity: 0;
+        }
+
+        /* Live Validation Styling */
+        .input-control.valid {
+            border-color: var(--success-color);
+        }
+
+        .input-control.invalid {
+            border-color: var(--error-color);
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.75rem;
+            margin-top: 0.4rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            opacity: 0;
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+        }
+
+        .error-message.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Gender Segmented Selection */
+        .segmented-control {
+            display: flex;
+            background: var(--input-bg);
+            border: 1.5px solid var(--input-border);
+            border-radius: var(--border-radius-md);
+            padding: 4px;
+            width: 100%;
+        }
+
+        .segmented-option {
+            flex: 1;
+            position: relative;
+        }
+
+        .segmented-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .segmented-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.9rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-radius: calc(var(--border-radius-md) - 6px);
+            text-align: center;
+        }
+
+        .segmented-option input[type="radio"]:checked + .segmented-label {
+            background: var(--accent-gradient);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+        }
+
+        .segmented-label:hover {
+            color: var(--accent-primary);
+        }
+
+        /* Course Selector - Grid of beautiful visual cards */
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.2rem;
+            margin-top: 0.5rem;
+        }
+
+        .course-card {
+            background: var(--input-bg);
+            border: 1.5px solid var(--input-border);
+            border-radius: var(--border-radius-md);
+            padding: 1.5rem;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.8rem;
+        }
+
+        .course-card input[type="radio"] {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent-primary);
+        }
+
+        .course-card:hover {
+            background: var(--card-hover);
+            border-color: var(--accent-primary);
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-4px);
+        }
+
+        .course-card.selected {
+            background: var(--card-hover);
+            border-color: var(--accent-primary);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .course-icon {
+            font-size: 1.5rem;
+            color: var(--accent-primary);
+            background: var(--accent-glow);
+            width: 48px;
+            height: 48px;
+            border-radius: var(--border-radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .course-details h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.2rem;
+        }
+
+        .course-details p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.3;
+        }
+
+        /* Drag & Drop File Upload Area */
+        .file-upload-zone {
+            border: 2px dashed var(--input-border);
+            background: var(--input-bg);
+            border-radius: var(--border-radius-md);
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .file-upload-zone.dragover {
+            border-color: var(--accent-primary);
+            background: var(--card-hover);
+        }
+
+        .upload-icon {
+            font-size: 2.5rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .upload-text {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 0.4rem;
+        }
+
+        .upload-text span {
+            color: var(--accent-primary);
+            font-weight: 700;
+            text-decoration: underline;
+        }
+
+        .upload-hint {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .upload-preview-container {
+            display: none;
+            margin-top: 1rem;
+            position: relative;
+        }
+
+        .upload-preview {
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: var(--border-radius-sm);
+            object-fit: cover;
+            border: 2px solid var(--accent-primary);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .remove-upload-btn {
+            position: absolute;
+            top: -10px;
+            right: calc(50% - 60px);
+            background: var(--error-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Canvas Signature Pad */
+        .signature-wrapper {
+            margin-top: 1.5rem;
+        }
+
+        .signature-label {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.6rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .signature-clear-btn {
+            background: transparent;
+            border: none;
+            color: var(--accent-primary);
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .signature-clear-btn:hover {
+            text-decoration: underline;
+        }
+
+        .signature-canvas-container {
+            background: var(--input-bg);
+            border: 1.5px solid var(--input-border);
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .signature-canvas {
+            display: block;
+            width: 100%;
+            height: 150px;
+            cursor: crosshair;
+            touch-action: none;
+        }
+
+        /* Checkbox list styles */
+        .checkbox-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent-primary);
+            margin-top: 2px;
+            border-radius: 4px;
+        }
+
+        .checkbox-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .checkbox-text a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Form Footer / Navigation buttons */
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            border-top: 1px solid var(--glass-border);
+            padding-top: 2rem;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border-radius: var(--border-radius-md);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-secondary {
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            color: var(--text-secondary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--card-hover);
+            color: var(--text-primary);
+        }
+
+        .btn-primary {
+            background: var(--accent-gradient);
+            border: none;
+            color: #ffffff;
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.25);
+        }
+
+        .btn-primary:hover {
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        /* Submit Loading animation spinner */
+        .btn-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Success Modal Overlay */
+        .success-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(25px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .success-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Student ID Card Design */
+        .id-card {
+            background: radial-gradient(circle at 100% 100%, #1e1b4b 0%, #030712 100%);
+            border: 2px solid rgba(255,255,255,0.1);
+            width: 480px;
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6), 0 0 40px rgba(99, 102, 241, 0.3);
+            position: relative;
+            transform: scale(0.8) rotateX(10deg);
+            opacity: 0;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease;
+        }
+
+        .success-overlay.active .id-card {
+            transform: scale(1) rotateX(0);
+            opacity: 1;
+        }
+
+        .id-card-glow {
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .id-card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .id-university-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: #ffffff;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+
+        .id-university-logo i {
+            color: #818cf8;
+        }
+
+        .id-badge {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .id-card-body {
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 1.5rem;
+        }
+
+        .id-photo-container {
+            width: 120px;
+            height: 140px;
+            border-radius: var(--border-radius-sm);
+            border: 2px solid rgba(255,255,255,0.15);
+            background: #111827;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        }
+
+        .id-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .id-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .id-field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .id-field-label {
+            font-size: 0.65rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-weight: 600;
+        }
+
+        .id-field-value {
+            font-size: 0.95rem;
+            color: #ffffff;
+            font-weight: 600;
+            margin-top: 0.1rem;
+        }
+
+        .id-name {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #ffffff;
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .id-card-footer {
+            padding: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            background: rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .id-signature-preview {
+            max-height: 40px;
+            max-width: 130px;
+            opacity: 0.85;
+            filter: invert(1); /* Flip color to white signature */
+        }
+
+        /* Interactive digital barcode styling */
+        .id-barcode {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.2rem;
+        }
+
+        .id-barcode-lines {
+            height: 25px;
+            width: 110px;
+            background: linear-gradient(90deg, 
+                #fff 2px, transparent 2px, 
+                #fff 4px, transparent 4px, 
+                #fff 8px, transparent 8px, 
+                #fff 9px, transparent 9px,
+                #fff 13px, transparent 13px, 
+                #fff 14px, transparent 14px, 
+                #fff 17px, transparent 17px,
+                #fff 21px, transparent 21px,
+                #fff 22px, transparent 22px,
+                #fff 26px, transparent 26px,
+                #fff 28px, transparent 28px
+            );
+        }
+
+        .id-barcode-text {
+            font-size: 0.6rem;
+            font-family: monospace;
+            color: #64748b;
+            letter-spacing: 2px;
+        }
+
+        .success-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
+            width: 480px;
+            align-items: stretch;
+        }
+
+        /* Success dialog wrapper to group ID Card and buttons */
+        .success-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem;
+        }
+
+        .success-wrapper h2 {
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+        }
+
+        .success-wrapper p {
+            color: #94a3b8;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+            text-align: center;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.8rem;
+            }
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
+            }
+            .span-2 {
+                grid-column: span 1;
+            }
+            .course-grid {
+                grid-template-columns: 1fr;
+            }
+            .stepper {
+                margin-bottom: 2.5rem;
+            }
+            .step-label {
+                display: none;
+            }
+            .id-card, .success-actions {
+                width: 100%;
+                max-width: 380px;
+            }
+            .id-card-body {
+                grid-template-columns: 90px 1fr;
+                padding: 1.2rem;
+            }
+            .id-photo-container {
+                width: 90px;
+                height: 110px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Dynamic background decorative blur circles -->
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+
+    <!-- Registration Container -->
+    <div class="container">
+        
+        <!-- Theme Toggle & Header -->
+        <header class="portal-header">
+            <button class="theme-toggle-btn" id="themeToggleBtn" type="button" aria-label="Toggle dark mode">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <div class="portal-logo">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <h1>APEX UNIVERSITY</h1>
+            <p>Student Enrollment Portal • Academic Year 2026-27</p>
+        </header>
+
+        <!-- Stepper Indicator -->
+        <div class="stepper">
+            <div class="stepper-progress" id="stepperProgress"></div>
+            <div class="step active" data-step="1">
+                1
+                <span class="step-label">Personal Info</span>
+            </div>
+            <div class="step" data-step="2">
+                2
+                <span class="step-label">Academic Details</span>
+            </div>
+            <div class="step" data-step="3">
+                3
+                <span class="step-label">Verification</span>
+            </div>
+        </div>
+
+        <!-- Student Registration Form -->
+        <form id="registrationForm" novalidate>
+            
+            <!-- STEP 1: Personal Details -->
+            <div class="form-step active" data-step="1">
+                <div class="form-grid">
+                    <!-- Full Name -->
+                    <div class="form-group span-2">
+                        <input type="text" id="fullName" class="input-control" placeholder=" " required minlength="3">
+                        <label for="fullName" class="floating-label">Full Name</label>
+                        <div class="error-message" id="error-fullName">
+                            <i class="fa-solid fa-circle-exclamation"></i> Please enter your full name (minimum 3 characters).
+                        </div>
+                    </div>
+
+                    <!-- Email Address -->
+                    <div class="form-group">
+                        <input type="email" id="email" class="input-control" placeholder=" " required>
+                        <label for="email" class="floating-label">Email Address</label>
+                        <div class="error-message" id="error-email">
+                            <i class="fa-solid fa-circle-exclamation"></i> Please enter a valid email address.
+                        </div>
+                    </div>
+
+                    <!-- Phone Number -->
+                    <div class="form-group">
+                        <input type="tel" id="phone" class="input-control" placeholder=" " required pattern="[0-9]{10}">
+                        <label for="phone" class="floating-label">Phone Number (10 digits)</label>
+                        <div class="error-message" id="error-phone">
+                            <i class="fa-solid fa-circle-exclamation"></i> Please enter a valid 10-digit phone number.
+                        </div>
+                    </div>
+
+                    <!-- Date of Birth -->
+                    <div class="form-group">
+                        <input type="date" id="dob" class="input-control" placeholder=" " required>
+                        <label for="dob" class="floating-label">Date of Birth</label>
+                        <div class="error-message" id="error-dob">
+                            <i class="fa-solid fa-circle-exclamation"></i> You must be at least 16 years old to enroll.
+                        </div>
+                    </div>
+
+                    <!-- Gender Radio Control (Segmented) -->
+                    <div class="form-group">
+                        <span style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.4rem; font-weight:600;">Gender</span>
+                        <div class="segmented-control">
+                            <div class="segmented-option">
+                                <input type="radio" id="genderMale" name="gender" value="Male" checked>
+                                <label for="genderMale" class="segmented-label">Male</label>
+                            </div>
+                            <div class="segmented-option">
+                                <input type="radio" id="genderFemale" name="gender" value="Female">
+                                <label for="genderFemale" class="segmented-label">Female</label>
+                            </div>
+                            <div class="segmented-option">
+                                <input type="radio" id="genderOther" name="gender" value="Other">
+                                <label for="genderOther" class="segmented-label">Other</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 2: Academic Info & Course Selection -->
+            <div class="form-step" data-step="2">
+                <div class="form-grid">
+                    <!-- School Name -->
+                    <div class="form-group span-2">
+                        <input type="text" id="prevSchool" class="input-control" placeholder=" " required>
+                        <label for="prevSchool" class="floating-label">Previous Institution / High School Name</label>
+                        <div class="error-message" id="error-prevSchool">
+                            <i class="fa-solid fa-circle-exclamation"></i> Please specify your previous high school.
+                        </div>
+                    </div>
+
+                    <!-- GPA / Score percentage -->
+                    <div class="form-group">
+                        <input type="number" id="gpa" class="input-control" placeholder=" " step="0.01" min="0" max="100" required>
+                        <label for="gpa" class="floating-label">GPA or Final Score (%)</label>
+                        <div class="error-message" id="error-gpa">
+                            <i class="fa-solid fa-circle-exclamation"></i> Enter a value between 0 and 100.
+                        </div>
+                    </div>
+
+                    <!-- Preferred Start Term -->
+                    <div class="form-group">
+                        <select id="startSemester" class="input-control" required style="padding-top: 1.1rem; padding-bottom: 1.1rem;">
+                            <option value="Fall 2026" selected>Fall Term 2026</option>
+                            <option value="Spring 2027">Spring Term 2027</option>
+                            <option value="Summer 2027">Summer Term 2027</option>
+                        </select>
+                        <label for="startSemester" class="floating-label" style="top: 0; font-size: 0.75rem; padding: 0 0.4rem; color: var(--accent-primary); background: var(--glass-bg); transform: translateY(-50%) scale(0.95);">Enrollment Semester</label>
+                    </div>
+
+                    <!-- Program Cards -->
+                    <div class="form-group span-2">
+                        <span style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.4rem; font-weight:600;">Choose Your Academic Major</span>
+                        <div class="course-grid">
+                            <!-- Course 1 -->
+                            <div class="course-card selected" onclick="selectCourse('courseCS')">
+                                <input type="radio" id="courseCS" name="academicCourse" value="Computer Science" checked>
+                                <div class="course-icon"><i class="fa-solid fa-code"></i></div>
+                                <div class="course-details">
+                                    <h4>Computer Science</h4>
+                                    <p>Algorithms, software engineering, systems design, and artificial intelligence architectures.</p>
+                                </div>
+                            </div>
+                            <!-- Course 2 -->
+                            <div class="course-card" onclick="selectCourse('courseDS')">
+                                <input type="radio" id="courseDS" name="academicCourse" value="Data Science">
+                                <div class="course-icon"><i class="fa-solid fa-chart-pie"></i></div>
+                                <div class="course-details">
+                                    <h4>Data Science & Analytics</h4>
+                                    <p>Statistical computing, big data systems, forecasting models, and machine learning pipelines.</p>
+                                </div>
+                            </div>
+                            <!-- Course 3 -->
+                            <div class="course-card" onclick="selectCourse('courseDesign')">
+                                <input type="radio" id="courseDesign" name="academicCourse" value="Digital Arts">
+                                <div class="course-icon"><i class="fa-solid fa-compass-drafting"></i></div>
+                                <div class="course-details">
+                                    <h4>Digital Arts & Design</h4>
+                                    <p>UX research, creative composition, branding systems, and dynamic human interfaces.</p>
+                                </div>
+                            </div>
+                            <!-- Course 4 -->
+                            <div class="course-card" onclick="selectCourse('courseBusiness')">
+                                <input type="radio" id="courseBusiness" name="academicCourse" value="Business Administration">
+                                <div class="course-icon"><i class="fa-solid fa-chart-line"></i></div>
+                                <div class="course-details">
+                                    <h4>Business Administration</h4>
+                                    <p>Enterprise dynamics, venture design, global economics, and agile leadership principles.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 3: Verification & Sign-off -->
+            <div class="form-step" data-step="3">
+                <div class="form-grid">
+                    <!-- Photo Upload Area -->
+                    <div class="form-group span-2">
+                        <span style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.4rem; font-weight:600;">Upload Profile Picture</span>
+                        <div class="file-upload-zone" id="dropzone" onclick="document.getElementById('photoUpload').click()">
+                            <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+                            <div class="upload-text">Drag and drop or <span>browse</span> to upload photo</div>
+                            <div class="upload-hint">Supports JPEG, PNG up to 2MB (Square ratio recommended)</div>
+                            <input type="file" id="photoUpload" accept="image/*" style="display: none;" onchange="handleFileSelect(this)">
+                            
+                            <div class="upload-preview-container" id="previewContainer">
+                                <img src="" id="photoPreview" class="upload-preview" alt="Student photo preview">
+                                <button type="button" class="remove-upload-btn" onclick="removePhoto(event)"><i class="fa-solid fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="error-message" id="error-photoUpload">
+                            <i class="fa-solid fa-circle-exclamation"></i> Please upload a valid profile photo.
+                        </div>
+                    </div>
+
+                    <!-- Interactive HTML5 Signature Pad -->
+                    <div class="form-group span-2 signature-wrapper">
+                        <div class="signature-label">
+                            <span>Digital Signature</span>
+                            <button type="button" class="signature-clear-btn" id="clearSignatureBtn">Clear Signature</button>
+                        </div>
+                        <div class="signature-canvas-container">
+                            <canvas id="signatureCanvas" class="signature-canvas"></canvas>
+                        </div>
+                        <div class="error-message" id="error-signature">
+                            <i class="fa-solid fa-circle-exclamation"></i> Please provide your digital signature on the board.
+                        </div>
+                    </div>
+
+                    <!-- Code of Conduct agreement -->
+                    <div class="form-group span-2" style="margin-top: 1rem;">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="termsCheckbox" required>
+                            <span class="checkbox-text">
+                                I confirm that all the information provided above is accurate and valid. I agree to comply with the university’s <a href="#">Terms of Enrollment</a> and <a href="#">Code of Student Conduct</a>.
+                            </span>
+                        </label>
+                        <div class="error-message" id="error-termsCheckbox">
+                            <i class="fa-solid fa-circle-exclamation"></i> You must agree to the Terms of Enrollment and Student Code of Conduct to proceed.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Controls / Buttons -->
+            <footer class="form-footer">
+                <button type="button" class="btn btn-secondary" id="backBtn" style="visibility: hidden;">
+                    <i class="fa-solid fa-arrow-left"></i> Previous Step
+                </button>
+                <button type="button" class="btn btn-primary" id="nextBtn">
+                    Next Step <i class="fa-solid fa-arrow-right"></i>
+                </button>
+                <button type="submit" class="btn btn-primary" id="submitBtn" style="display: none;">
+                    Complete Registration <span class="btn-spinner" id="submitSpinner"></span>
+                </button>
+            </footer>
+        </form>
+    </div>
+
+    <!-- Success Modal showing generated Student ID Card -->
+    <div class="success-overlay" id="successOverlay">
+        <div class="success-wrapper">
+            <h2 class="title-font">Enrollment Complete!</h2>
+            <p>Welcome to the Apex community. Your student account has been successfully configured.</p>
+            
+            <!-- Student ID Card -->
+            <div class="id-card" id="studentIDCard">
+                <div class="id-card-glow"></div>
+                <div class="id-card-header">
+                    <div class="id-university-logo">
+                        <i class="fa-solid fa-graduation-cap"></i> APEX UNIVERSITY
+                    </div>
+                    <div class="id-badge">STUDENT</div>
+                </div>
+                <div class="id-card-body">
+                    <div class="id-photo-container">
+                        <img src="" class="id-photo" id="idPhotoPreview" alt="Student Profile Photo">
+                    </div>
+                    <div class="id-details">
+                        <div class="id-field">
+                            <span class="id-name" id="idStudentName">STUDENT NAME</span>
+                        </div>
+                        <div class="id-field">
+                            <span class="id-field-label">Student ID</span>
+                            <span class="id-field-value" id="idNumber">AX-2026-9812</span>
+                        </div>
+                        <div class="id-field" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                            <div>
+                                <span class="id-field-label">Major</span>
+                                <span class="id-field-value" id="idMajor" style="font-size: 0.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: block;">Computer Science</span>
+                            </div>
+                            <div>
+                                <span class="id-field-label">Issued</span>
+                                <span class="id-field-value" id="idIssueDate" style="font-size: 0.8rem;">07/2026</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="id-card-footer">
+                    <div class="id-field">
+                        <span class="id-field-label">Authorized Signature</span>
+                        <img src="" class="id-signature-preview" id="idSignaturePreview" alt="Student Digital Signature">
+                    </div>
+                    <div class="id-barcode">
+                        <div class="id-barcode-lines"></div>
+                        <span class="id-barcode-text" id="idBarcodeText">AX-2026-9812</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Action Buttons -->
+            <div class="success-actions">
+                <button type="button" class="btn btn-primary" style="justify-content: center; width:100%;" onclick="window.print()">
+                    <i class="fa-solid fa-print"></i> Print Enrollment Receipt
+                </button>
+                <button type="button" class="btn btn-secondary" style="justify-content: center; width:100%;" onclick="resetPortal()">
+                    Register Another Student
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Implementation for interactive functionalities -->
+    <script>
+        // Global State & UI Selectors
+        let currentStep = 1;
+        const totalSteps = 3;
+
+        const form = document.getElementById('registrationForm');
+        const nextBtn = document.getElementById('nextBtn');
+        const backBtn = document.getElementById('backBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const submitSpinner = document.getElementById('submitSpinner');
+        const stepperProgress = document.getElementById('stepperProgress');
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const successOverlay = document.getElementById('successOverlay');
+        
+        // Dark Mode Configuration
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        let activeTheme = systemPrefersDark ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', activeTheme);
+        updateThemeToggleIcon();
+
+        themeToggleBtn.addEventListener('click', () => {
+            activeTheme = activeTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', activeTheme);
+            updateThemeToggleIcon();
+        });
+
+        function updateThemeToggleIcon() {
+            const icon = themeToggleBtn.querySelector('i');
+            if (activeTheme === 'dark') {
+                icon.className = 'fa-solid fa-sun';
+            } else {
+                icon.className = 'fa-solid fa-moon';
+            }
+        }
+
+        // Stepper Navigation Control
+        function updateStepper() {
+            // Update active states on steps
+            document.querySelectorAll('.step').forEach(step => {
+                const stepNum = parseInt(step.getAttribute('data-step'));
+                step.classList.remove('active', 'completed');
+                
+                if (stepNum === currentStep) {
+                    step.classList.add('active');
+                } else if (stepNum < currentStep) {
+                    step.classList.add('completed');
+                }
+            });
+
+            // Update linking progress bar
+            const percent = ((currentStep - 1) / (totalSteps - 1)) * 100;
+            stepperProgress.style.width = `${percent}%`;
+
+            // Form steps visibility toggles
+            document.querySelectorAll('.form-step').forEach(step => {
+                step.classList.remove('active');
+                if (parseInt(step.getAttribute('data-step')) === currentStep) {
+                    step.classList.add('active');
+                }
+            });
+
+            // Visibility for footer control buttons
+            if (currentStep === 1) {
+                backBtn.style.visibility = 'hidden';
+                nextBtn.style.display = 'inline-flex';
+                submitBtn.style.display = 'none';
+            } else if (currentStep === totalSteps) {
+                backBtn.style.visibility = 'visible';
+                nextBtn.style.display = 'none';
+                submitBtn.style.display = 'inline-flex';
+                // Trigger resize signature canvas once step becomes active
+                setTimeout(resizeCanvas, 100);
+            } else {
+                backBtn.style.visibility = 'visible';
+                nextBtn.style.display = 'inline-flex';
+                submitBtn.style.display = 'none';
+            }
+        }
+
+        // Step-specific validations
+        function validateCurrentStep() {
+            let isValid = true;
+
+            if (currentStep === 1) {
+                // Validate Full Name
+                const fullName = document.getElementById('fullName');
+                if (fullName.value.trim().length < 3) {
+                    showFieldError(fullName, 'fullName');
+                    isValid = false;
+                } else {
+                    clearFieldError(fullName, 'fullName');
+                }
+
+                // Validate Email
+                const email = document.getElementById('email');
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email.value.trim())) {
+                    showFieldError(email, 'email');
+                    isValid = false;
+                } else {
+                    clearFieldError(email, 'email');
+                }
+
+                // Validate Phone
+                const phone = document.getElementById('phone');
+                const phoneRegex = /^[0-9]{10}$/;
+                if (!phoneRegex.test(phone.value.replace(/[\s()-]/g, ''))) {
+                    showFieldError(phone, 'phone');
+                    isValid = false;
+                } else {
+                    clearFieldError(phone, 'phone');
+                }
+
+                // Validate Age (Date of Birth)
+                const dob = document.getElementById('dob');
+                if (!dob.value) {
+                    showFieldError(dob, 'dob');
+                    isValid = false;
+                } else {
+                    const birthDate = new Date(dob.value);
+                    const today = new Date();
+                    let age = today.getFullYear() - birthDate.getFullYear();
+                    const monthDiff = today.getMonth() - birthDate.getMonth();
+                    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                        age--;
+                    }
+                    if (age < 16) {
+                        showFieldError(dob, 'dob');
+                        isValid = false;
+                    } else {
+                        clearFieldError(dob, 'dob');
+                    }
+                }
+            } else if (currentStep === 2) {
+                // Validate School Name
+                const prevSchool = document.getElementById('prevSchool');
+                if (prevSchool.value.trim().length === 0) {
+                    showFieldError(prevSchool, 'prevSchool');
+                    isValid = false;
+                } else {
+                    clearFieldError(prevSchool, 'prevSchool');
+                }
+
+                // Validate GPA/Score
+                const gpa = document.getElementById('gpa');
+                const scoreVal = parseFloat(gpa.value);
+                if (isNaN(scoreVal) || scoreVal < 0 || scoreVal > 100) {
+                    showFieldError(gpa, 'gpa');
+                    isValid = false;
+                } else {
+                    clearFieldError(gpa, 'gpa');
+                }
+            } else if (currentStep === 3) {
+                // Validate Signature Canvas has content
+                const signaturePad = document.getElementById('signatureCanvas');
+                if (isCanvasBlank(signaturePad)) {
+                    showFieldError(signaturePad, 'signature');
+                    isValid = false;
+                } else {
+                    clearFieldError(signaturePad, 'signature');
+                }
+
+                // Validate Photo uploaded
+                const photoInput = document.getElementById('photoUpload');
+                const previewContainer = document.getElementById('previewContainer');
+                if (!profilePhotoBase64 && previewContainer.style.display !== 'block') {
+                    showFieldError(document.getElementById('dropzone'), 'photoUpload');
+                    isValid = false;
+                } else {
+                    clearFieldError(document.getElementById('dropzone'), 'photoUpload');
+                }
+
+                // Validate Terms Checkbox
+                const terms = document.getElementById('termsCheckbox');
+                if (!terms.checked) {
+                    showFieldError(terms, 'termsCheckbox');
+                    isValid = false;
+                } else {
+                    clearFieldError(terms, 'termsCheckbox');
+                }
+            }
+
+            return isValid;
+        }
+
+        // Live validation indicators
+        function showFieldError(inputEl, baseId) {
+            inputEl.classList.add('invalid');
+            inputEl.classList.remove('valid');
+            document.getElementById(`error-${baseId}`).classList.add('visible');
+        }
+
+        function clearFieldError(inputEl, baseId) {
+            inputEl.classList.remove('invalid');
+            inputEl.classList.add('valid');
+            document.getElementById(`error-${baseId}`).classList.remove('visible');
+        }
+
+        // Attach listener validation as student types
+        const inputValidationRules = {
+            fullName: (val) => val.trim().length >= 3,
+            email: (val) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim()),
+            phone: (val) => /^[0-9]{10}$/.test(val.replace(/[\s()-]/g, '')),
+            prevSchool: (val) => val.trim().length > 0,
+            gpa: (val) => {
+                const num = parseFloat(val);
+                return !isNaN(num) && num >= 0 && num <= 100;
+            }
+        };
+
+        Object.keys(inputValidationRules).forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener('input', () => {
+                    if (inputValidationRules[id](el.value)) {
+                        clearFieldError(el, id);
+                    }
+                });
+            }
+        });
+
+        // Date of birth trigger
+        const dobEl = document.getElementById('dob');
+        if (dobEl) {
+            dobEl.addEventListener('change', () => {
+                if (dobEl.value) {
+                    const birthDate = new Date(dobEl.value);
+                    const today = new Date();
+                    let age = today.getFullYear() - birthDate.getFullYear();
+                    const monthDiff = today.getMonth() - birthDate.getMonth();
+                    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                        age--;
+                    }
+                    if (age >= 16) {
+                        clearFieldError(dobEl, 'dob');
+                    }
+                }
+            });
+        }
+
+        // Button Click Handler: Next
+        nextBtn.addEventListener('click', () => {
+            if (validateCurrentStep()) {
+                if (currentStep < totalSteps) {
+                    currentStep++;
+                    updateStepper();
+                }
+            }
+        });
+
+        // Button Click Handler: Back
+        backBtn.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                updateStepper();
+            }
+        });
+
+        // Direct clicking on Stepper step numbers
+        document.querySelectorAll('.step').forEach(stepEl => {
+            stepEl.addEventListener('click', () => {
+                const targetStep = parseInt(stepEl.getAttribute('data-step'));
+                
+                // Allow back navigation freely
+                if (targetStep < currentStep) {
+                    currentStep = targetStep;
+                    updateStepper();
+                } else if (targetStep > currentStep) {
+                    // Force complete sequential validation going forward
+                    let stepsToValidate = targetStep - currentStep;
+                    for (let i = 0; i < stepsToValidate; i++) {
+                        if (validateCurrentStep()) {
+                            currentStep++;
+                            updateStepper();
+                        } else {
+                            break;
+                        }
+                    }
+                }
+            });
+        });
+
+        // Course Selector Selection Handler
+        function selectCourse(radioId) {
+            document.querySelectorAll('.course-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            const input = document.getElementById(radioId);
+            input.checked = true;
+            input.closest('.course-card').classList.add('selected');
+        }
+
+        // Upload Profile Picture & Drag-and-drop actions
+        const dropzone = document.getElementById('dropzone');
+        let profilePhotoBase64 = '';
+
+        // Prevent default browser drag behaviors
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropzone.addEventListener(eventName, () => dropzone.classList.add('dragover'), false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, () => dropzone.classList.remove('dragover'), false);
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files.length) {
+                const fileInput = document.getElementById('photoUpload');
+                fileInput.files = files;
+                handleFileSelect(fileInput);
+            }
+        });
+
+        function handleFileSelect(input) {
+            const file = input.files[0];
+            if (file) {
+                if (!file.type.startsWith('image/')) {
+                    alert('Please upload a valid image file.');
+                    return;
+                }
+                if (file.size > 2 * 1024 * 1024) {
+                    alert('Image size exceeds the 2MB limit.');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    profilePhotoBase64 = e.target.result;
+                    document.getElementById('photoPreview').src = profilePhotoBase64;
+                    document.getElementById('previewContainer').style.display = 'block';
+                    dropzone.querySelector('.upload-icon').style.display = 'none';
+                    dropzone.querySelector('.upload-text').style.display = 'none';
+                    dropzone.querySelector('.upload-hint').style.display = 'none';
+                    clearFieldError(dropzone, 'photoUpload');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removePhoto(e) {
+            e.stopPropagation(); // Avoid triggering click to search file
+            profilePhotoBase64 = '';
+            document.getElementById('photoUpload').value = '';
+            document.getElementById('previewContainer').style.display = 'none';
+            dropzone.querySelector('.upload-icon').style.display = 'block';
+            dropzone.querySelector('.upload-text').style.display = 'block';
+            dropzone.querySelector('.upload-hint').style.display = 'block';
+        }
+
+        // HTML5 Canvas Drawing for Signature Pad
+        const canvas = document.getElementById('signatureCanvas');
+        const ctx = canvas.getContext('2d');
+        const clearBtn = document.getElementById('clearSignatureBtn');
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+
+        function resizeCanvas() {
+            // Keep drawing buffer sized to UI element
+            const rect = canvas.getBoundingClientRect();
+            // Store previous canvas state before resize to re-render
+            const tempImage = canvas.toDataURL();
+            
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+
+            // Canvas drawing configuration
+            ctx.strokeStyle = '#6366f1';
+            ctx.lineWidth = 3.5;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            // Clear buffer, load stored image to prevent reset
+            const img = new Image();
+            img.onload = () => {
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            };
+            img.src = tempImage;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+
+        // Drawing Event Handlers
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing);
+
+        // Canvas touch coordinates calculator
+        function getTouchPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: e.touches[0].clientX - rect.left,
+                y: e.touches[0].clientY - rect.top
+            };
+        }
+
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const touch = getTouchPos(e);
+            isDrawing = true;
+            [lastX, lastY] = [touch.x, touch.y];
+        });
+
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if (!isDrawing) return;
+            const touch = getTouchPos(e);
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(touch.x, touch.y);
+            ctx.stroke();
+            [lastX, lastY] = [touch.x, touch.y];
+        });
+
+        canvas.addEventListener('touchend', stopDrawing);
+
+        function startDrawing(e) {
+            isDrawing = true;
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.stroke();
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        // Clean signature pad board
+        clearBtn.addEventListener('click', () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+
+        // Verification utility: check canvas for user strokes
+        function isCanvasBlank(canvasEl) {
+            const blank = document.createElement('canvas');
+            blank.width = canvasEl.width;
+            blank.height = canvasEl.height;
+            return canvasEl.toDataURL() === blank.toDataURL();
+        }
+
+        // Form Submit Actions
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            if (validateCurrentStep()) {
+                // Show loading layout
+                submitBtn.disabled = true;
+                submitSpinner.style.display = 'inline-block';
+
+                // Simulate network latency / saving data to server
+                setTimeout(() => {
+                    generateStudentIDCard();
+                    triggerConfetti();
+                    
+                    submitBtn.disabled = false;
+                    submitSpinner.style.display = 'none';
+                    successOverlay.classList.add('active');
+                }, 1800);
+            }
+        });
+
+        // Extract UI form data and build Student ID Card details
+        function generateStudentIDCard() {
+            const fullName = document.getElementById('fullName').value;
+            const selectedCourse = document.querySelector('input[name="academicCourse"]:checked').value;
+            const signatureDataUrl = canvas.toDataURL();
+
+            // Set Student Name
+            document.getElementById('idStudentName').textContent = fullName;
+            
+            // Set Selected Major Program
+            document.getElementById('idMajor').textContent = selectedCourse;
+            
+            // Build Issue date (current Month / Year)
+            const date = new Date();
+            const formattedMonth = String(date.getMonth() + 1).padStart(2, '0');
+            const formattedYear = date.getFullYear();
+            document.getElementById('idIssueDate').textContent = `${formattedMonth}/${formattedYear}`;
+            
+            // Build unique Student ID (e.g. AX-2026-XXXX)
+            const randomID = Math.floor(1000 + Math.random() * 9000);
+            const studentIDStr = `AX-${formattedYear}-${randomID}`;
+            document.getElementById('idNumber').textContent = studentIDStr;
+            document.getElementById('idBarcodeText').textContent = studentIDStr;
+
+            // Set profile image from base64 string
+            const photoEl = document.getElementById('idPhotoPreview');
+            if (profilePhotoBase64) {
+                photoEl.src = profilePhotoBase64;
+            } else {
+                // Fallback generic student avatar SVG
+                photoEl.src = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%2394a3b8"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`;
+            }
+
+            // Bind signature representation
+            document.getElementById('idSignaturePreview').src = signatureDataUrl;
+        }
+
+        // Clean & Re-initialize form data
+        function resetPortal() {
+            form.reset();
+            currentStep = 1;
+            
+            // Clean uploaded photo state
+            profilePhotoBase64 = '';
+            document.getElementById('previewContainer').style.display = 'none';
+            dropzone.querySelector('.upload-icon').style.display = 'block';
+            dropzone.querySelector('.upload-text').style.display = 'block';
+            dropzone.querySelector('.upload-hint').style.display = 'block';
+            
+            // Clean signature canvas state
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Clean validation design border statuses
+            document.querySelectorAll('.input-control').forEach(input => {
+                input.classList.remove('valid', 'invalid');
+            });
+            document.querySelectorAll('.error-message').forEach(err => {
+                err.classList.remove('visible');
+            });
+            
+            // Re-bind to computer science card default selections
+            selectCourse('courseCS');
+
+            // Hide overlay
+            successOverlay.classList.remove('active');
+            updateStepper();
+        }
+
+        // Native canvas particle system for success celebration confetti
+        function triggerConfetti() {
+            const canvasConf = document.createElement('canvas');
+            canvasConf.style.position = 'fixed';
+            canvasConf.style.top = '0';
+            canvasConf.style.left = '0';
+            canvasConf.style.width = '100vw';
+            canvasConf.style.height = '100vh';
+            canvasConf.style.pointerEvents = 'none';
+            canvasConf.style.zIndex = '999';
+            document.body.appendChild(canvasConf);
+            
+            const context = canvasConf.getContext('2d');
+            canvasConf.width = window.innerWidth;
+            canvasConf.height = window.innerHeight;
+
+            const particles = [];
+            const colors = ['#6366f1', '#a855f7', '#10b981', '#f59e0b', '#3b82f6'];
+
+            for (let i = 0; i < 150; i++) {
+                particles.push({
+                    x: Math.random() * canvasConf.width,
+                    y: Math.random() * canvasConf.height - canvasConf.height,
+                    r: Math.random() * 6 + 4,
+                    d: Math.random() * canvasConf.height,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    tilt: Math.random() * 10 - 5,
+                    tiltAngleIncremental: Math.random() * 0.07 + 0.02,
+                    tiltAngle: 0
+                });
+            }
+
+            let animationFrameId;
+            const startTime = Date.now();
+
+            function drawParticles() {
+                context.clearRect(0, 0, canvasConf.width, canvasConf.height);
+                
+                particles.forEach((p, idx) => {
+                    p.tiltAngle += p.tiltAngleIncremental;
+                    p.y += (Math.cos(p.d) + 3 + p.r / 2) / 2;
+                    p.x += Math.sin(p.tiltAngle);
+                    p.tilt = Math.sin(p.tiltAngle - idx / 3) * 15;
+
+                    context.beginPath();
+                    context.lineWidth = p.r;
+                    context.strokeStyle = p.color;
+                    context.moveTo(p.x + p.tilt + p.r / 2, p.y);
+                    context.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 2);
+                    context.stroke();
+                });
+
+                // Clear celebration overlay script references after 4.5 seconds
+                if (Date.now() - startTime < 4500) {
+                    animationFrameId = requestAnimationFrame(drawParticles);
+                } else {
+                    cancelAnimationFrame(animationFrameId);
+                    canvasConf.remove();
+                }
+            }
+
+            drawParticles();
+        }
+    </script>
+</body>
+</html>
